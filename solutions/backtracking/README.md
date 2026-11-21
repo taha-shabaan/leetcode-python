@@ -1,7 +1,9 @@
 # Backtracking
 
-Problems solved: 1
+Problems solved: 3
 
 | # | Problem | Difficulty | Time | Space | Video |
 | --- | --- | --- | --- | --- | --- |
+| 46 | [Permutations](./0046_permutations.py) | Medium | O(n · n!) | O(n) + output | — |
+| 47 | [Permutations II](./0047_permutations_ii.py) | Medium | O(n · n!) | O(n) + output | — |
 | 93 | [Restore IP Addresses](./0093_restore_ip_addresses.py) | Medium | O(3^4 · n) | O(4) + output | — |
