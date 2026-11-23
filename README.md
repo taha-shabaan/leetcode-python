@@ -65,7 +65,7 @@ Each solution exposes the same `Solution` class LeetCode expects plus a `_self_t
 | Trees | 0 | 0 |
 | Tries | 0 | 0 |
 | Heap | 0 | 0 |
-| Backtracking | 6 | 0 |
+| Backtracking | 7 | 0 |
 | Graphs | 2 | 0 |
 | 1-D DP | 1 | 0 |
 | 2-D DP | 0 | 0 |
@@ -75,7 +75,7 @@ Each solution exposes the same `Solution` class LeetCode expects plus a `_self_t
 | Bit Manipulation | 0 | 0 |
 | Strings | 0 | 0 |
 | Misc | 0 | 0 |
-| **Total** | **12** | **0** |
+| **Total** | **13** | **0** |
 
 ## Topics
 
