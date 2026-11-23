@@ -60,49 +60,60 @@ Video
 from typing import Dict, List
 
 
-class _TrieNode:
-    __slots__ = ("children", "word")
+class TrieNode:
+    __slots__ = ("children", "is_word", "word")
 
     def __init__(self) -> None:
-        self.children: Dict[str, "_TrieNode"] = {}
+        self.children: Dict[str, "TrieNode"] = {}
+        self.is_word = False
         self.word: str | None = None
 
 
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        root = _TrieNode()
-        for word in words:
+        """
+        :type board: List[List[str]]
+        :type words: List[str]
+        :rtype: List[str]
+        """
+        if not board or not board[0] or not words:
+            return []
+
+        def insert(word: str, root: TrieNode) -> None:
             node = root
-            for ch in word:
-                node = node.children.setdefault(ch, _TrieNode())
+            for char in word:
+                node = node.children.setdefault(char, TrieNode())
+            node.is_word = True
             node.word = word
 
+        root = TrieNode()
+        for word in words:
+            insert(word, root)
+
         rows, cols = len(board), len(board[0])
+        directions = ((1, 0), (-1, 0), (0, 1), (0, -1))
         found: List[str] = []
 
-        def dfs(row: int, col: int, parent: _TrieNode) -> None:
-            ch = board[row][col]
-            node = parent.children.get(ch)
-            if node is None:
-                return
+        def dfs(row: int, col: int, node: TrieNode) -> None:
+            char = board[row][col]
+            child = node.children[char]
 
-            if node.word is not None:
-                found.append(node.word)
-                node.word = None
+            if child.word is not None:
+                found.append(child.word)
+                child.word = None
+                child.is_word = False
 
             board[row][col] = "#"
-            for dr, dc in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            for dr, dc in directions:
                 nr, nc = row + dr, col + dc
-                if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] != "#":
-                    dfs(nr, nc, node)
-            board[row][col] = ch
-
-            if not node.children:
-                parent.children.pop(ch, None)
+                if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] in child.children:
+                    dfs(nr, nc, child)
+            board[row][col] = char
 
         for row in range(rows):
             for col in range(cols):
-                dfs(row, col, root)
+                if board[row][col] in root.children:
+                    dfs(row, col, root)
 
         return found
 
