@@ -45,6 +45,7 @@ Pitfalls
 - Note this solution mutates `grid`; copy it first if the caller needs it.
 """
 
+import copy
 from typing import List
 
 
@@ -78,9 +79,57 @@ class Solution:
         return best
 
 
-def _self_test() -> None:
-    s = Solution()
+class Solution2(object):
+    """Alternative recursive DFS that keeps an explicit visited matrix."""
 
+    def maxAreaOfIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        if conected group backtracking it`s necessary but if the seprate nodes in the graph it`s only explore and choose not (unod)
+        """
+        dirs = ((1,0), (0,1), (-1,0), (0,-1))
+        row_counts = len(grid)
+        col_counts = len(grid[0])
+        # island_num=0
+        vis = [[False] * col_counts for _ in range(row_counts)]
+        ans = 0
+        # total=0
+
+        def is_valid(row, col):
+            return (
+                0<= row <row_counts
+                and 0<= col <col_counts
+                and not vis[row][col]
+                and grid[row][col]==1
+            )
+        def dfs(row, col):
+            if row==row_counts and col==col_counts:
+                return 1
+            total=1
+            vis[row][col]=True
+            for dx, dy in dirs: #(0,2)
+                rx=dx+row
+                cy=dy+col
+                if is_valid(rx, cy):
+                    vis[rx][cy]=True
+                    total+= dfs(rx, cy)
+                    # vis[rx][cy]=False
+            return total
+
+
+        for row in range(row_counts):
+            for col in range(col_counts):
+                if grid[row][col]==1 and not vis[row][col]:
+                    vis[row][col]=True
+                    total = dfs(row,col)
+                    # vis[row][col]=False
+                    ans = max(ans, total)
+
+        return ans
+
+
+def _self_test() -> None:
     grid1 = [
         [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
@@ -91,12 +140,16 @@ def _self_test() -> None:
         [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
     ]
-    assert s.maxAreaOfIsland(grid1) == 6
 
-    assert s.maxAreaOfIsland([[0, 0, 0, 0, 0, 0, 0, 0]]) == 0
-    assert s.maxAreaOfIsland([[1, 1, 0, 0, 0], [1, 1, 0, 0, 0], [0, 0, 0, 1, 1]]) == 4
-    assert s.maxAreaOfIsland([[1]]) == 1
-    assert s.maxAreaOfIsland([[0]]) == 0
-    assert s.maxAreaOfIsland([[1, 1, 1, 1]]) == 4
-    assert s.maxAreaOfIsland([[1], [1], [0], [1]]) == 2
-    assert s.maxAreaOfIsland([]) == 0
+    for solver in (Solution(), Solution2()):
+        assert solver.maxAreaOfIsland(copy.deepcopy(grid1)) == 6
+        assert solver.maxAreaOfIsland([[0, 0, 0, 0, 0, 0, 0, 0]]) == 0
+        assert solver.maxAreaOfIsland([[1, 1, 0, 0, 0], [1, 1, 0, 0, 0], [0, 0, 0, 1, 1]]) == 4
+        assert solver.maxAreaOfIsland([[1]]) == 1
+        assert solver.maxAreaOfIsland([[0]]) == 0
+        assert solver.maxAreaOfIsland([[1, 1, 1, 1]]) == 4
+        assert solver.maxAreaOfIsland([[1], [1], [0], [1]]) == 2
+
+    # LeetCode guarantees at least one row and column; only the iterative
+    # solution additionally handles an empty grid.
+    assert Solution().maxAreaOfIsland([]) == 0
