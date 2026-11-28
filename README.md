@@ -62,7 +62,7 @@ Each solution exposes the same `Solution` class LeetCode expects plus a `_self_t
 | --- | --- | --- |
 | Arrays | 1 | 0 |
 | Two Pointers | 0 | 0 |
-| Sliding Window | 1 | 0 |
+| Sliding Window | 2 | 0 |
 | Stack | 1 | 0 |
 | Binary Search | 1 | 0 |
 | Linked List | 0 | 0 |
@@ -79,7 +79,7 @@ Each solution exposes the same `Solution` class LeetCode expects plus a `_self_t
 | Bit Manipulation | 0 | 0 |
 | Strings | 0 | 0 |
 | Misc | 0 | 0 |
-| **Total** | **20** | **0** |
+| **Total** | **21** | **0** |
 
 ## Topics
 
