@@ -4,6 +4,10 @@ Optimal Python solutions to LeetCode problems — grouped by pattern. Each solut
 
 The goal is not "a solution that passes", but the best known asymptotic solution the problem's constraints allow.
 
+## Roadmap
+
+See [ROADMAP.md](ROADMAP.md) for a topic-by-topic study order with curated problem links.
+
 ## Structure
 
 ```text
